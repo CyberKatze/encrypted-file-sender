@@ -2,6 +2,6 @@ package server
 
 import "fmt"
 
-func Start() {
-	fmt.Println("Server is running")
+func Start(port int) {
+	fmt.Printf("Listenning to 0.0.0.0:%v", port)
 }

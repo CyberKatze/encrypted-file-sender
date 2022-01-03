@@ -2,21 +2,21 @@ package cmd
 
 import (
 	"flag"
-	"fmt"
 )
 
-var app string
+var (
+	IsListen bool
+	Port     int
+	IP	string	
+)
 
 func init() {
-	flag.StringVar(&app, "app", "client", "app can be client or server by passing 'server' or 'client' ")
+	flag.BoolVar(&IsListen, "l", false, "Bind and listen for incomming connection")
+	flag.IntVar(&Port, "p", 8888, "Set the port for TCP connection. The Default port is 8888")
 	flag.Parse()
+	IP =flag.Arg(0)
 }
 
-func GetApp() (string, error) {
-	if app == "server" || app == "client" {
-		return app, nil
-	} else {
-		return "", fmt.Errorf("app flag should be 'client' or 'server' not : %q", app)
-	}
-
+func Run() error{
+	return nil	
 }
