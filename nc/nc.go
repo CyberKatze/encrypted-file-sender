@@ -1,5 +1,5 @@
-// Package nettool for handling networking stuff.
-package nettool
+// Package nc for handling networking stuff.
+package nc
 
 import (
 	"io"
@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-// tcp_con_handle handle TCP connection 
+// tcp_con_handle handle TCP connection
 // TCP -> Stdout and Stdin -> TCP.
 func tcp_con_handle(con net.Conn) {
   chan_to_stdout := stream_copy(con, os.Stdout)
@@ -69,7 +69,7 @@ func Run(n *NetData) error{
       os.Exit(1)
     }
   }
-
+  n.Port = ":"+ n.Port
   // Server-side handler
   if n.IsListen {
     listener, err := net.Listen("tcp", n.Port)
@@ -84,7 +84,7 @@ func Run(n *NetData) error{
       log.Println("Connect from", con.RemoteAddr())
       tcp_con_handle(con)
   }else{ //Client-side handler
-    con,err := net.Dial("tcp", n.Host)
+    con,err := net.Dial("tcp", n.Host + n.Port)
     if err!= nil {
       log.Fatalln(err)
     }

@@ -5,23 +5,20 @@ import (
 	"fmt"
 	"os"
 
+  "github.com/m3dsh/encrypted-file-sender/nc"
 	"github.com/urfave/cli/v2"
-)
-
-// Variables that is being set by CLI
-var (
-  IsListen  bool
-  Port      string
-  IP        string
 )
 
 // connectAction do actions required for client-side
 func connectAction(c *cli.Context) error{
   if c.Args().Len() >0 {
-  IsListen = false
-  IP = c.Args().Get(0)
-  Port = c.String("port")
-  fmt.Printf("connect to %s:%s",IP, Port)
+  n := &nc.NetData{
+     Host: c.Args().Get(0),
+     Port: c.String("port"),
+     IsListen: false,
+   }
+
+   nc.Run(n)
   return nil
   }
 
@@ -31,9 +28,12 @@ func connectAction(c *cli.Context) error{
 
 // listenAction do actions requred for server-side
 func listenAction(c *cli.Context) error{
-  IsListen = true
-  Port = c.String("port")
-  fmt.Printf("listen to 0.0.0.0:%s", Port)
+  n := &nc.NetData{
+    Host: "0.0.0.0",
+    Port:  c.String("port"),
+    IsListen: true,
+  }
+  nc.Run(n)
   return nil
   
 }
@@ -62,12 +62,12 @@ func main() {
     },
   }
 
-// share flag between multiple subcommand
+// shared flags between multiple subcommands
   portFlag := &cli.StringFlag{
           Name:     "port",
           Aliases:  []string{"p"}, 
           Usage:    "Define `PORT`",
-          Required: true,
+          Value:    "8888",
         }
 
 // CLI subcommands
@@ -92,7 +92,7 @@ func main() {
     },
   }
 
-  // RUn app
+  // RUN app
   if err:= app.Run(os.Args); err != nil {
     fmt.Println(err)
   }
