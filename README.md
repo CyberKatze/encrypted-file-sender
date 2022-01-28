@@ -3,8 +3,8 @@
 
 # Features 
 - [x] CLI interface with usage
-- [ ] Sending data over TCP connection
-- [ ] Sending file over TCP connection
+- [x] Sending data over TCP connection
+- [x] Sending file over TCP connection
 - [ ] Encrypt file with AES or DES and share key
 - [ ] Show encryption time and transmission time   
 - [ ] Generate some random files with different size
