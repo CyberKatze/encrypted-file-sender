@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"os"
 
-  "github.com/m3dsh/encrypted-file-sender/nc"
+	"github.com/m3dsh/encrypted-file-sender/nc"
+	"github.com/m3dsh/encrypted-file-sender/encryption"
 	"github.com/urfave/cli/v2"
 )
 
@@ -36,6 +37,15 @@ func listenAction(c *cli.Context) error{
   nc.Run(n)
   return nil
   
+}
+
+func encryptAction(c *cli.Context) error{
+  encryption.EncryptFiles(c.String("file"),c.String("algorithm"),c.String("key"))
+  return nil
+}
+func decryptAction(c *cli.Context) error{
+  encryption.DecryptFiles(c.String("file"),c.String("algorithm"),c.String("key"))
+  return nil
 }
 
 func main() {
@@ -78,6 +88,12 @@ func main() {
       Usage:    "Connect [-p <PORT>] <IP>",
       Flags:    []cli.Flag{
         portFlag,
+        &cli.StringFlag{
+          Name:     "files",
+          Aliases:  []string{"d","f","o"}, 
+          Usage: " path to directory or file in order to send ",
+          Value: "./",
+        },
       },
       Action:   connectAction,
     },
@@ -87,8 +103,66 @@ func main() {
       Usage:    "listen [-p <PORT>]",
       Flags:    []cli.Flag{
         portFlag,
+        &cli.StringFlag{
+          Name:     "save",
+          Aliases:  []string{"s","f","o"}, 
+          Usage: " Directory path for saving files ",
+          Value: "./",
+        },
       },
       Action:   listenAction,
+    },
+    {
+      Name:     "encrypt",
+      Category: "Encryption",
+      Usage:    "Encryption -f <filespath> -alg <algorithm> -k <keypath>",
+      Flags:    []cli.Flag{
+        &cli.StringFlag{
+          Name:     "algorithm",
+          Aliases:  []string{"alg"}, 
+          Usage: " define the algorithm <DES|AES> ",
+          Value: "DES",
+        },
+        &cli.StringFlag{
+          Name:     "key",
+          Aliases:  []string{"k"}, 
+          Usage: "key location <path> ",
+          Value: "key",
+        },
+        &cli.StringFlag{
+          Name:     "file",
+          Aliases:  []string{"f"}, 
+          Usage: "directory or file path for ciphertext",
+          Value: "key",
+        },
+      },
+      Action:   encryptAction,
+    },
+    {
+      Name:     "decrypt",
+      Category: "Encryption",
+      Usage:    "Decryption -f <filespath> -alg <algorithm> -k <keypath>",
+      Flags:    []cli.Flag{
+        &cli.StringFlag{
+          Name:     "algorithm",
+          Aliases:  []string{"alg"}, 
+          Usage: " define the algorithm <DES|AES> ",
+          Value: "DES",
+        },
+        &cli.StringFlag{
+          Name:     "key",
+          Aliases:  []string{"k"}, 
+          Usage: "key <key> ",
+          Value: "key",
+        },
+        &cli.StringFlag{
+          Name:     "file",
+          Aliases:  []string{"f"}, 
+          Usage: "directory or file path for ciphertext",
+          Value: "key",
+        },
+      },
+      Action:   decryptAction,
     },
   }
 
