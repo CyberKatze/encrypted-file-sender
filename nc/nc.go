@@ -19,10 +19,12 @@ import (
 
 
 // serveFileReciever make Http listener for receiving file
-func serveFileReciever() {
+func serveFileReciever(path string) {
   receiveFileHandler := http.HandlerFunc(receiveFile)
   http.Handle("/file", receiveFileHandler)
   http.ListenAndServe(":8080", nil)
+  Path = path
+  _ = os.Mkdir(Path, os.ModePerm)
 
 }
 
@@ -39,7 +41,7 @@ func receiveFile(w http.ResponseWriter, request *http.Request) {
     w.WriteHeader(http.StatusBadRequest)
     return
   }
-  tmpfile, err := os.Create("./" + h.Filename)
+  tmpfile, err := os.Create(Path + h.Filename)
   if err != nil {
     w.WriteHeader(http.StatusInternalServerError)
     return
@@ -211,10 +213,13 @@ func ReadStatus(con *net.Conn) {
 
 // NetData all data required by nettool to work.
 type NetData struct{
-  IsListen bool
-  Host string
-  Port string
+  IsListen    bool
+  Host        string
+  Port        string
+  Encryption  bool
+  Path        string
 }
+var Path string
 
 
 func Run(n *NetData) error{
@@ -244,7 +249,8 @@ func Run(n *NetData) error{
       ReadStatus(&con)
     }
   }()
-      serveFileReciever()
+      
+      serveFileReciever(n.Path)
   }else{ // Client-side handler
 
 

@@ -1,4 +1,6 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
+github.com/MagnusFrater/markov-chain-text-generator v0.1.1 h1:zLJehj2ZTvgXdry14jQ73Q3P+zUZuN5iL43vrm5QCaw=
+github.com/MagnusFrater/markov-chain-text-generator v0.1.1/go.mod h1:U5W0tYL/ztXySBh6cT1iNhyvtowLL2iroTrO46RBp5w=
 github.com/buger/goterm v1.0.3 h1:7V/HeAQHrzPk/U4BvyH2g9u+xbUW9nr4yRPyG59W4fM=
 github.com/buger/goterm v1.0.3/go.mod h1:HiFWV3xnkolgrBV3mY8m0X0Pumt4zg4QhbdOzQtB8tE=
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d h1:U+s90UTSYgptZMwQh2aRr3LuazLJIa+Pg3Kc1ylSYVY=

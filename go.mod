@@ -3,6 +3,7 @@ module github.com/m3dsh/encrypted-file-sender
 go 1.17
 
 require (
+	github.com/MagnusFrater/markov-chain-text-generator v0.1.1
 	github.com/buger/goterm v1.0.3
 	github.com/urfave/cli/v2 v2.3.0
 )
